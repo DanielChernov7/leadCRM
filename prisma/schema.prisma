@@ -1,0 +1,65 @@
+// Prisma schema for Lead Ingestion CRM
+// This schema defines two tables:
+// 1. leads_raw - Raw JSON storage, never lose any incoming data
+// 2. leads - Normalized table for CRM operations
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Raw lead storage - stores every incoming request exactly as received
+// Purpose: Audit trail and zero data loss guarantee
+model LeadRaw {
+  id              String    @id @default(uuid())
+  createdAt       DateTime  @default(now())
+  idempotencyKey  String?   @map("idempotency_key")
+  xRequestId      String?   @map("x_request_id")
+  payload         Json      // Full JSON body as received
+
+  @@unique([idempotencyKey], name: "idx_leads_raw_idempotency_key", map: "leads_raw_idempotency_key_key")
+  @@index([createdAt])
+  @@map("leads_raw")
+}
+
+// Normalized lead table for CRM operations
+// Purpose: Structured data for CRM UI, search, assignment, etc.
+model Lead {
+  id              String    @id @default(uuid())
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  // Lead data fields (all nullable - we accept anything)
+  clickId         String?   @map("click_id")
+  country         String?
+  creo            String?
+  description     String?
+  domain          String?
+  email           String?
+  firstName       String?   @map("first_name")
+  lastName        String?   @map("last_name")
+  ip              String?
+  lang            String?
+  marker          String?
+  offer           String?
+  phone           String?
+  sourcetype      String?
+
+  // Metadata fields
+  idempotencyKey  String?   @map("idempotency_key")
+  xRequestId      String?   @map("x_request_id")
+
+  // CRM operational fields
+  status          String    @default("new")       // new, in_work, converted, rejected, etc.
+  assignedTo      Int?      @map("assigned_to")   // FK to users table (future)
+
+  @@unique([idempotencyKey], name: "idx_leads_idempotency_key", map: "leads_idempotency_key_key")
+  @@index([createdAt])
+  @@index([status])
+  @@index([email])
+  @@index([phone])
+  @@map("leads")
+}

@@ -1,0 +1,42 @@
+{
+  "name": "lead-ingestion-crm",
+  "version": "1.0.0",
+  "description": "Rock-solid lead ingestion CRM backend with zero data loss",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "keywords": ["crm", "lead-ingestion", "fastify", "prisma", "typescript"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@prisma/client": "^5.22.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "pino": "^9.5.0",
+    "pino-pretty": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.11",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
