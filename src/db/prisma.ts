@@ -18,19 +18,10 @@ export const prisma =
   global.prisma ||
   new PrismaClient({
     log: [
-      { level: 'warn', emit: 'event' },
-      { level: 'error', emit: 'event' },
+      { level: 'warn', emit: 'stdout' },
+      { level: 'error', emit: 'stdout' },
     ],
   });
-
-// Log Prisma warnings and errors using our logger
-prisma.$on('warn', (e) => {
-  logger.warn({ prismaWarning: e }, 'Prisma warning');
-});
-
-prisma.$on('error', (e) => {
-  logger.error({ prismaError: e }, 'Prisma error');
-});
 
 // Store in global in development to prevent creating new instances on hot reload
 if (process.env.NODE_ENV !== 'production') {

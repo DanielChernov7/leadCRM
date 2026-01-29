@@ -70,7 +70,7 @@ export function logError(error: unknown, context: Record<string, unknown>) {
 /**
  * Formats error for safe client response (no internal details leaked)
  */
-export function formatClientError(error: unknown): { ok: false; error: string } {
+export function formatClientError(_error: unknown): { ok: false; error: string } {
   // Never leak internal error details to client
   return {
     ok: false,

@@ -62,7 +62,7 @@ export async function ingestLead(
         id: leadId,
         idempotencyKey: idempotencyKey || null,
         xRequestId: xRequestId || null,
-        payload: payload as unknown as Record<string, unknown>, // Prisma Json type
+        payload: JSON.parse(JSON.stringify(payload)), // Prisma Json type
       },
     });
 
@@ -118,6 +118,7 @@ export async function ingestLead(
         offer: payload.offer || null,
         phone: payload.phone || null,
         sourcetype: payload.sourcetype || null,
+        geoCountry: payload.geo_country || null,
         idempotencyKey: idempotencyKey || null,
         xRequestId: xRequestId || null,
         status: 'new',

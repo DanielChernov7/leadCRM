@@ -23,6 +23,7 @@ export interface CrmLeadPayload {
   offer: string | null;
   phone: string | null;
   sourcetype: string | null;
+  geo_country: string | null;
 }
 
 /**

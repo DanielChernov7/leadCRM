@@ -31,7 +31,7 @@ function getHeader(request: FastifyRequest, headerName: string): string | null {
 /**
  * Registers the lead ingestion route
  */
-export async function registerLeadRoute(fastify: FastifyInstance) {
+export async function registerLeadRoute(fastify: FastifyInstance<any, any, any, any>) {
   fastify.post('/api/lead', async (request: FastifyRequest, reply: FastifyReply) => {
     // Extract headers
     const idempotencyKey = getHeader(request, 'idempotency-key');

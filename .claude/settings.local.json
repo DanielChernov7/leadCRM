@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "Bash(if not exist \"D:\\\\Projects\\\\leadCRM\\\\public\" mkdir \"D:\\\\Projects\\\\leadCRM\\\\public\")",
+      "Bash(npm run build:*)"
+    ]
+  }
+}

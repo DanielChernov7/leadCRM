@@ -47,6 +47,7 @@ model Lead {
   offer           String?
   phone           String?
   sourcetype      String?
+  geoCountry      String?   @map("geo_country")
 
   // Metadata fields
   idempotencyKey  String?   @map("idempotency_key")

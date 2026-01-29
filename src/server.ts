@@ -9,12 +9,15 @@
  * 4. Start server: npm run dev (development) or npm start (production)
  */
 
+import path from 'path';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import fastifyStatic from '@fastify/static';
 import { config } from './config';
 import { logger } from './logger';
 import { disconnectPrisma } from './db/prisma';
 import { registerLeadRoute } from './routes/lead';
+import { registerLeadsRoute } from './routes/leads';
 
 /**
  * Create and configure Fastify instance
@@ -34,6 +37,11 @@ async function buildServer() {
     credentials: true,
   });
 
+  // Serve static files from public/
+  await fastify.register(fastifyStatic, {
+    root: path.join(__dirname, '..', 'public'),
+  });
+
   // Health check endpoint
   fastify.get('/health', async () => {
     return { ok: true, timestamp: new Date().toISOString() };
@@ -41,6 +49,9 @@ async function buildServer() {
 
   // Register lead ingestion route
   await registerLeadRoute(fastify);
+
+  // Register leads CRM routes
+  await registerLeadsRoute(fastify);
 
   return fastify;
 }
